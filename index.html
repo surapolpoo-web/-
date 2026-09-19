@@ -1,1 +1,714 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบการเรียนรู้และทดสอบ รายวิชา งานวัดละเอียดช่างยนต์ (ง31271)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Sarabun', sans-serif; background-color: #f8fafc; }
+        @media print {
+            .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            body { background-color: white; }
+            .print-container { box-shadow: none !important; border: 1px solid #ccc !important; padding: 20px !important; margin: 0 !important; width: 100% !important; }
+        }
+        .print-only { display: none; }
+        .lesson-body h4 { font-size: 1.125rem; font-weight: 700; color: #1e3a8a; margin-top: 1.5rem; margin-bottom: 0.5rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.25rem; }
+        .lesson-body h5 { font-size: 1rem; font-weight: 600; color: #1e40af; margin-top: 1rem; margin-bottom: 0.25rem; }
+        .lesson-body p { margin-bottom: 0.75rem; text-align: justify; }
+        .lesson-body ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 0.75rem; }
+        .lesson-body ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 0.75rem; }
+    </style>
+</head>
+<body class="text-gray-800 flex flex-col min-h-screen">
 
+    <!-- Header / Navbar -->
+    <header class="bg-blue-900 text-white shadow-lg no-print sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex flex-wrap justify-between items-center">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="showView('home')">
+                <i class="fas fa-tools text-3xl text-amber-400"></i>
+                <div>
+                    <h1 class="text-xl font-bold leading-tight">งานวัดละเอียดช่างยนต์</h1>
+                    <p class="text-xs text-blue-200">รหัสวิชา ง31271 | โรงเรียนเมืองคง</p>
+                </div>
+            </div>
+            <nav class="mt-2 sm:mt-0 flex flex-wrap gap-2">
+                <button onclick="showView('home')" class="px-3 py-1.5 rounded-lg hover:bg-blue-800 transition text-sm font-medium"><i class="fas fa-home mr-1"></i> หน้าแรก</button>
+                <button onclick="showView('units')" class="px-3 py-1.5 rounded-lg hover:bg-blue-800 transition text-sm font-medium"><i class="fas fa-book mr-1"></i> หน่วยการเรียนรู้</button>
+                <button onclick="showView('student-info')" class="px-3 py-1.5 rounded-lg hover:bg-blue-800 transition text-sm font-medium"><i class="fas fa-user-graduate mr-1"></i> ข้อมูลนักเรียน</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Student Status Bar -->
+    <div class="bg-blue-800 text-white py-1.5 px-4 shadow-inner no-print text-xs sm:text-sm">
+        <div class="container mx-auto flex justify-between items-center">
+            <div id="current-student-display">
+                <i class="fas fa-user-circle mr-1 text-amber-400"></i> นักเรียน: <span class="font-semibold" id="student-name-tag">ยังไม่ได้ลงทะเบียน</span>
+            </div>
+            <button onclick="showView('student-info')" class="text-amber-300 underline hover:text-amber-100">เปลี่ยนข้อมูล</button>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="container mx-auto px-4 py-6 flex-grow">
+
+        <!-- VIEW: Home -->
+        <section id="view-home" class="view-panel space-y-6">
+            <div class="bg-white rounded-2xl shadow-md p-6 md:p-8 border-l-8 border-blue-800 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="space-y-3">
+                    <h2 class="text-2xl md:text-3xl font-bold text-blue-900">ระบบบทเรียนและแบบทดสอบวัดผลออนไลน์</h2>
+                    <p class="text-gray-600">รายวิชา งานวัดละเอียดช่างยนต์ (ง31271) กลุ่มสาระการเรียนรู้การงานอาชีพ</p>
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <button onclick="showView('units')" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition flex items-center">
+                            <i class="fas fa-play-circle mr-2 text-xl"></i> เริ่มเข้าสู่บทเรียน & แบบทดสอบ
+                        </button>
+                        <button onclick="showView('student-info')" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-xl shadow-lg transition flex items-center">
+                            <i class="fas fa-id-card mr-2 text-xl"></i> กรอกข้อมูลนักเรียน
+                        </button>
+                    </div>
+                </div>
+                <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=500&q=80" alt="Precision Measurement" class="w-full md:w-64 h-40 object-cover rounded-xl shadow-md border">
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-800 mt-8 mb-4 flex items-center">
+                <i class="fas fa-list-ol text-blue-800 mr-2"></i> หน่วยการเรียนรู้ทั้งหมด (8 หน่วย)
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="home-units-grid"></div>
+        </section>
+
+        <!-- VIEW: Student Info -->
+        <section id="view-student-info" class="view-panel hidden max-w-lg mx-auto">
+            <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-200">
+                <h2 class="text-xl font-bold text-blue-900 mb-4 flex items-center">
+                    <i class="fas fa-user-edit mr-2 text-blue-600"></i> บันทึกข้อมูลนักเรียน
+                </h2>
+                <form id="student-form" onsubmit="saveStudentInfo(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">ชื่อ-นามสกุล</label>
+                        <input type="text" id="input-name" required placeholder="นาย/นางสาว..." class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">เลขที่</label>
+                            <input type="number" id="input-no" required placeholder="เช่น 15" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">ชั้น ม.4/</label>
+                            <input type="text" id="input-room" required placeholder="เช่น 10" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-800 hover:bg-blue-900 text-white font-semibold py-3 rounded-xl transition shadow-md">
+                        บันทึกข้อมูล
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- VIEW: Units List -->
+        <section id="view-units" class="view-panel hidden space-y-4">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">เลือกหน่วยการเรียนรู้</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="units-list-container"></div>
+        </section>
+
+        <!-- VIEW: Unit Detail & Content -->
+        <section id="view-unit-detail" class="view-panel hidden space-y-6">
+            <button onclick="showView('units')" class="text-blue-700 hover:underline flex items-center font-medium no-print">
+                <i class="fas fa-arrow-left mr-2"></i> กลับไปหน้าเลือกหน่วยการเรียนรู้
+            </button>
+            <div id="unit-detail-content" class="bg-white p-6 md:p-8 rounded-2xl shadow-md border border-gray-200 space-y-6"></div>
+        </section>
+
+        <!-- VIEW: Quiz -->
+        <section id="view-quiz" class="view-panel hidden max-w-2xl mx-auto space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-md border border-gray-200">
+                <div class="flex justify-between items-center mb-4 border-b pb-3">
+                    <h2 id="quiz-title" class="text-lg font-bold text-blue-900">แบบทดสอบ</h2>
+                    <span id="quiz-progress" class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-1 rounded-full">ข้อ 1/5</span>
+                </div>
+                <div id="quiz-container" class="space-y-4"></div>
+                <div class="mt-6 flex justify-between items-center pt-4 border-t">
+                    <button id="btn-prev" onclick="navigateQuiz(-1)" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition" disabled>ข้อก่อนหน้า</button>
+                    <button id="btn-next" onclick="navigateQuiz(1)" class="px-5 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition">ข้อถัดไป</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: Result -->
+        <section id="view-result" class="view-panel hidden max-w-xl mx-auto space-y-6">
+            <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-200 text-center print-container">
+                <div class="no-print mb-4">
+                    <i class="fas fa-award text-5xl text-amber-500 mb-2"></i>
+                    <h2 class="text-2xl font-bold text-gray-800">บันทึกผลการทดสอบ</h2>
+                </div>
+                <div class="text-center mb-6 pb-4 border-b">
+                    <h3 class="text-xl font-bold text-blue-900">แบบรายงานผลการทดสอบวัดผลสัมฤทธิ์</h3>
+                    <p class="text-sm text-gray-600">รายวิชา งานวัดละเอียดช่างยนต์ (ง31271) โรงเรียนเมืองคง</p>
+                </div>
+                <div class="bg-gray-50 p-4 rounded-xl text-left mb-6 border text-sm space-y-1">
+                    <p><strong>ชื่อ-นามสกุล:</strong> <span id="res-student-name">-</span></p>
+                    <p><strong>ระดับชั้น:</strong> มัธยมศึกษาปีที่ 4/<span id="res-student-room">-</span> <strong>เลขที่:</strong> <span id="res-student-no">-</span></p>
+                    <p><strong>หน่วยการเรียนรู้:</strong> <span id="res-unit-title">-</span></p>
+                    <p><strong>วันที่ทำรายการ:</strong> <span id="res-date">-</span></p>
+                </div>
+                <div class="bg-blue-50 border-2 border-blue-200 rounded-2xl p-6 mb-6 inline-block w-full">
+                    <span class="text-sm font-semibold text-blue-800 uppercase tracking-wide">คะแนนที่ได้</span>
+                    <div class="text-4xl font-extrabold text-blue-900 mt-2" id="res-score-display">0 / 0</div>
+                    <p class="text-sm mt-2 font-medium" id="res-status-text"></p>
+                </div>
+                <div class="print-only mt-12 pt-8 grid grid-cols-2 gap-4 text-center text-sm">
+                    <div>
+                        <p class="mb-8">ลงชื่อ...................................................ผู้เรียน</p>
+                        <p>( <span id="res-sign-student"></span> )</p>
+                    </div>
+                    <div>
+                        <p class="mb-8">ลงชื่อ...................................................ผู้สอน</p>
+                        <p>( นายสุรพล ภูมิโคกรักษ์ )</p>
+                    </div>
+                </div>
+                <div class="no-print flex flex-wrap justify-center gap-4 mt-6">
+                    <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-5 rounded-xl shadow-md transition flex items-center">
+                        <i class="fas fa-print mr-2"></i> พิมพ์ผลการทดสอบ (Print/PDF)
+                    </button>
+                    <button onclick="showView('units')" class="bg-blue-800 hover:bg-blue-900 text-white font-bold py-2.5 px-5 rounded-xl shadow-md transition flex items-center">
+                        <i class="fas fa-list mr-2"></i> ทำแบบทดสอบหน่วยอื่น
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-400 py-4 text-center text-xs no-print mt-auto">
+        <div class="container mx-auto px-4">
+            <p>รายวิชา งานวัดละเอียดช่างยนต์ รหัสวิชา ง31271 | ผู้สอน: ครูสุรพล ภูมิโคกรักษ์</p>
+            <p class="mt-1 text-gray-500">โรงเรียนเมืองคง อ.คง จ.นครราชสีมา สำนักงานเขตพื้นที่การศึกษามัธยมศึกษานครราชสีมา</p>
+        </div>
+    </footer>
+
+    <script>
+        const courseData = [
+            {
+                id: 1,
+                title: "หน่วยที่ 1 ความรู้พื้นฐานเกี่ยวกับงานวัดละเอียด",
+                desc: "ระบบหน่วยวัด อัตราการแปลงหน่วย ความแม่นยำ ปัจจัยที่ทำให้เกิดความคลาดเคลื่อน และความปลอดภัย",
+                image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80",
+                content: `
+                    <div class="lesson-body text-sm leading-relaxed text-gray-700">
+                        <h3 class="text-2xl font-bold text-blue-900 mb-4 border-b pb-2">หน่วยที่ 1: ความรู้พื้นฐานเกี่ยวกับงานวัดละเอียดช่างยนต์</h3>
+                        
+                        <div class="my-4 text-center">
+                            <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1000&q=80" alt="Precision Tools Overview" class="w-full max-h-80 object-cover rounded-xl shadow">
+                            <p class="text-xs text-gray-500 mt-1">รูปที่ 1.1: ชุดเครื่องมือวัดละเอียดสำหรับตรวจสอบชิ้นส่วนช่างยนต์</p>
+                        </div>
+
+                        <h4>1.1 ความสำคัญของงานวัดละเอียดในงานยานยนต์</h4>
+                        <p>ชิ้นส่วนของเครื่องยนต์กลไก เช่น ลูกสูบ เพลาข้อเหวี่ยง เพลาลูกเบี้ยว และลิ้น (Valves) มีการเคลื่อนที่ด้วยความเร็วรอบสูงหลายพันรอบต่อนาที ชิ้นส่วนเหล่านี้ต้องการระยะห่างการทำงาน (Clearance) ที่แม่นยำในระดับ **0.01 มิลลิเมตร (10 ไมครอน)** หรือน้อยกว่านั้น หากระยะห่างมากเกินไปจะทำให้เกิดเสียงดัง การกระแทก และสูญเสียกำลังงาน แต่หากระยะห่างน้อยเกินไป ความร้อนจะทำให้โลหะขยายตัวจนชิ้นส่วนติดขัด (Engine Seize)</p>
+                        <p>งานวัดละเอียดจึงเป็นหัวใจสำคัญในการ **วินิจฉัยความสึกหรอ (Wear Inspection)** และ **ปรับตั้งระยะชิ้นส่วน (Adjustment)** ในงานซ่อมบำรุงเครื่องยนต์ตามมาตรฐานผู้ผลิต</p>
+
+                        <h4>1.2 ระบบหน่วยวัดทางช่าง (Measurement Systems)</h4>
+                        <p>ในงานช่างยนต์มีการใช้งานระบบหน่วยวัดหลักอยู่ 2 ระบบ ได้แก่:</p>
+                        <ul>
+                            <li><strong>ระบบเมตริก (Metric System):</strong> ใช้หน่วย **มิลลิเมตร (mm)** เป็นหลัก ความละเอียดในงานวัดละเอียดจะแบ่งเป็น 0.1 มม., 0.05 มม., 0.02 มม., และ 0.01 มม. (1/100 มม.)</li>
+                            <li><strong>ระบบอังกฤษ (Imperial System):</strong> ใช้หน่วย **นิ้ว (inch)** หรือทศนิยมของนิ้ว เช่น 0.001 นิ้ว (1/1000 นิ้ว) หรือเรียกว่า "เธา" (Thousandths of an inch)</li>
+                        </ul>
+
+                        <div class="bg-slate-100 p-4 rounded-xl border border-slate-300 my-4">
+                            <h5 class="flex items-center text-blue-900 font-bold mb-2">
+                                <i class="fas fa-exchange-alt mr-2"></i> อัตราการแปลงหน่วยมาตรฐาน
+                            </h5>
+                            <ul class="text-xs font-mono space-y-1">
+                                <li>• 1 นิ้ว (in) = 25.4 มิลลิเมตร (mm)</li>
+                                <li>• 1 มิลลิเมตร (mm) = 0.03937 นิ้ว (in)</li>
+                                <li>• 1 ไมโครเมตร / ไมครอน (µm) = 0.001 มิลลิเมตร (mm)</li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 my-4">
+                            <h5 class="text-blue-900 font-bold mb-2 flex items-center">
+                                <i class="fas fa-calculator mr-2 text-blue-600"></i> ตัวอย่างการคำนวณที่ 1.1: การแปลงหน่วยนิ้วเป็นมิลลิเมตร
+                            </h5>
+                            <p class="text-xs"><strong>โจทย์:</strong> สลักลูกสูบมีขนาดเส้นผ่านศูนย์กลางตามสเปกคือ 0.875 นิ้ว จงแปลงขนาดนี้ให้เป็นหน่วยมิลลิเมตร?</p>
+                            <p class="font-mono text-xs bg-white p-3 rounded border">
+                                สูตร: ขนาด (mm) = ขนาด (inch) x 25.4<br>
+                                แทนค่า: 0.875 x 25.4 = 22.225 มิลลิเมตร<br>
+                                <strong>คำตอบ:</strong> สลักลูกสูบมีขนาดเท่ากับ 22.225 มม.
+                            </p>
+                        </div>
+
+                        <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 my-4">
+                            <h5 class="text-blue-900 font-bold mb-2 flex items-center">
+                                <i class="fas fa-calculator mr-2 text-blue-600"></i> ตัวอย่างการคำนวณที่ 1.2: การแปลงหน่วยมิลลิเมตรเป็นนิ้ว
+                            </h5>
+                            <p class="text-xs"><strong>โจทย์:</strong> ขนาดความโตของวาล์วไอดีวัดได้ 35.50 มิลลิเมตร อยากทราบว่ามีขนาดกี่นิ้ว?</p>
+                            <p class="font-mono text-xs bg-white p-3 rounded border">
+                                สูตร: ขนาด (inch) = ขนาด (mm) / 25.4<br>
+                                แทนค่า: 35.50 / 25.4 = 1.3976 นิ้ว<br>
+                                <strong>คำตอบ:</strong> ขนาดวาล์วไอดีมีขนาดเท่ากับ 1.398 นิ้ว (ปัดเศษทศนิยม 3 ตำแหน่ง)
+                            </p>
+                        </div>
+
+                        <h4>1.3 สาเหตุของความคลาดเคลื่อนในการวัด (Causes of Measurement Errors)</h4>
+                        <p>ความผิดพลาดของการวัดแบ่งออกเป็น 4 ปัจจัยหลัก:</p>
+                        <ol>
+                            <li><strong>Parallax Error (ความคลาดเคลื่อนจากพารัลแลกซ์):</strong> เกิดจากมุมมองสายตาของผู้ใช้วัด ไม่ได้ตั้งฉาก 90 องศากับขีดสเกล ทำให้เล็งตำแหน่งขีดสเกลผิดพลาด</li>
+                            <li><strong>Thermal Error (ความคลาดเคลื่อนจากอุณหภูมิ):</strong> โลหะจะขยายตัวเมื่อโดนความร้อน อุณหภูมิมาตรฐานสากลสำหรับการวัดละเอียดคือ **20°C** การวัดชิ้นงานขณะร้อนฉับพลันจะทำให้ค่าโตกว่าความเป็นจริง</li>
+                            <li><strong>Measuring Pressure Error (แรงกดในการวัด):</strong> การออกแรงกดเครื่องมือแน่นเกินไป ทำให้โครงสร้างเครื่องมือยืดหรือชิ้นงานเสียรูป</li>
+                            <li><strong>Instrument Error (ความบกพร่องของเครื่องมือ):</strong> เครื่องมือไม่ได้รับปรับตั้งศูนย์ (Zero Adjustment), เกิดคราบสกปรก หรือมีการสึกหรอที่ปากวัด</li>
+                        </ol>
+
+                        <h4>1.4 ข้อปฏิบัติการบำรุงรักษาเครื่องมือวัดละเอียด</h4>
+                        <ul>
+                            <li>เช็ดทำความสะอาดเครื่องมือวัดด้วยผ้าแห้งและสะอาดทุกครั้งก่อนและหลังใช้งาน</li>
+                            <li>ชโลมน้ำมันกันสนิมบางๆ บนส่วนที่เป็นโลหะก่อนเก็บเข้ากล่องประจำเครื่องมือ</li>
+                            <li>ห้ามวางเครื่องมือวัดละเอียดปะปนกับเครื่องมือช่างหนัก เช่น ค้อน ตะไบ หรือประแจ</li>
+                            <li>หลีกเลี่ยงการทำเครื่องมือวัดตกพื้นโดยเด็ดขาด เพราะจะทำให้โครงสร้างเบี้ยวและเสียความแม่นยำ</li>
+                        </ul>
+                    </div>
+                `,
+                quiz: [
+                    { q: "การวัด (Measurement) หมายถึงอะไร?", options: ["การเปรียบเทียบขนาดชิ้นงานกับหน่วยมาตรฐาน", "การประมาณสายตา", "การคาดเดาขนาด", "การชั่งน้ำหนัก"], a: 0 },
+                    { q: "ระบบหน่วยวัดความยาวในงานช่างยนต์ที่นิยมใช้ในประเทศไทยคือข้อใด?", options: ["ระบบเมตริก (มิลลิเมตร)", "ระบบไทย (ศอก)", "ระบบอังกฤษ (หลา)", "ระบบสากล (ไมล์)"], a: 0 },
+                    { q: "หากชิ้นส่วนมีขนาด 2 นิ้ว จะคิดเป็นกี่มิลลิเมตร (กำหนด 1 นิ้ว = 25.4 มม.)?", options: ["50.8 มิลลิเมตร", "25.4 มิลลิเมตร", "50.0 มิลลิเมตร", "100 มิลลิเมตร"], a: 0 },
+                    { q: "ข้อใดเป็นสาเหตุที่ทำให้เกิดความคลาดเคลื่อนในการวัด (Error)?", options: ["การอ่านค่าเอียงไม่ตรงมุมมอง 90 องศา", "เครื่องมืออยู่ในสภาพสมบูรณ์", "วัดชิ้นงานที่อุณหภูมิห้องมาตรฐาน", "ใช้เครื่องมือถูกประเภท"], a: 0 },
+                    { q: "ข้อใดไม่ใช่ข้อปฏิบัติที่ถูกต้องในการใช้เครื่องมือวัดละเอียด?", options: ["วางเครื่องมือซ้อนทับกับเครื่องมือช่างหนัก", "ทำความสะอาดเครื่องมือก่อนและหลังใช้", "ตรวจเช็คจุดศูนย์ (Zero Setting) ก่อนวัด", "จับถือด้วยความระมัดระวัง"], a: 0 }
+                ]
+            },
+            {
+                id: 2,
+                title: "หน่วยที่ 2 ฟิลเลอร์เกจ (Feeler Gauge)",
+                desc: "การใช้วัดระยะช่องว่าง การรวมแผ่นเกจ การวัดความโก่งฝาสูบ และเทคนิคการรับรู้สัมผัส",
+                image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80",
+                content: `
+                    <div class="lesson-body text-sm leading-relaxed text-gray-700">
+                        <h3 class="text-2xl font-bold text-blue-900 mb-4 border-b pb-2">หน่วยที่ 2: ฟิลเลอร์เกจ (Feeler Gauge)</h3>
+
+                        <div class="my-4 text-center">
+                            <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=1000&q=80" alt="Feeler Gauge Blades" class="w-full max-h-80 object-cover rounded-xl shadow">
+                            <p class="text-xs text-gray-500 mt-1">รูปที่ 2.1: ตลับชุดแผ่นฟิลเลอร์เกจความหนาต่างๆ สำหรับวัดระยะห่างช่องว่าง</p>
+                        </div>
+
+                        <h4>2.1 โครงสร้างและคุณลักษณะของฟิลเลอร์เกจ</h4>
+                        <p>ฟิลเลอร์เกจ (Thickness Gauge หรือ Feeler Gauge) คือเครื่องมือวัดระยะช่องว่างระหว่างผิวหน้าสัมผัส 2 ชิ้นงาน ทำจากเหล็กกล้าสปริงคุณภาพสูง (Spring Steel) ที่ผ่านการเจียระไนความหนาอย่างแม่นยำและชุบแข็ง รวมกันเป็นตลับพัด โดยมีความหนาพิมพ์กำกับอยู่บนแผ่นเกจแต่ละแผ่น มีทั้งระบบเมตริก (mm) และระบบนิ้ว (inch)</p>
+
+                        <h4>2.2 เทคนิคการรวมแผ่นฟิลเลอร์เกจ (Combination Technique)</h4>
+                        <p>ในกรณีที่ระยะห่างช่องว่างตรงกับค่าที่ไม่มีแผ่นเกจใดยาวพอดี ช่างจะต้องนำแผ่นเกจมาซ้อนรวมกัน โดยมีหลักการคือ **"ใช้จำนวนแผ่นน้อยที่สุดเท่าที่จะทำได้"** (ไม่ควรซ้อนเกิน 2-3 แผ่น) และต้องเช็ดคราบน้ำมันและสิ่งสกปรกออกให้สะอาดหมดจดก่อนซ้อนกันเสมอ</p>
+
+                        <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 my-4">
+                            <h5 class="text-blue-900 font-bold mb-2 flex items-center">
+                                <i class="fas fa-calculator mr-2 text-blue-600"></i> ตัวอย่างการรวมแผ่นเกจที่ 2.1
+                            </h5>
+                            <p class="text-xs"><strong>โจทย์:</strong> ต้องการตั้งระยะห่างลิ้นไอเสียของเครื่องยนต์ที่ 0.28 มิลลิเมตร แต่ในตลับฟิลเลอร์เกจไม่มีแผ่น 0.28 มม. จะเลือกรวมแผ่นใดได้บ้าง?</p>
+                            <p class="font-mono text-xs bg-white p-3 rounded border">
+                                วิธีคิดที่ 1: เลือกแผ่น 0.15 มม. + แผ่น 0.13 มม. = 0.28 มม.<br>
+                                วิธีคิดที่ 2: เลือกแผ่น 0.20 มม. + แผ่น 0.08 มม. = 0.28 มม.<br>
+                                <strong>ข้อควรระวัง:</strong> เช็ดฝุ่นและคราบน้ำมันระหว่างแผ่นซ้อนเพื่อป้องกันค่าคลาดเคลื่อน
+                            </p>
+                        </div>
+
+                        <h4>2.3 ขั้นตอนการปรับตั้งระยะห่างวาล์ว/ลิ้น (Valve Clearance Adjustment)</h4>
+                        <ol>
+                            <li>หมุนเพลาข้อเหวี่ยงให้สูบที่ต้องการตั้งอยู่ในตำแหน่ง **จุดศูนย์ตายบน (TDC) ในจังหวะอัดสุด** (วาล์วไอดีและไอเสียปิดสนิท)</li>
+                            <li>เลือกแผ่นฟิลเลอร์เกจความหนาตามคู่มือสเปกเครื่องยนต์ สอดเข้าไประหว่างกระเดื่องกดวาล์วกับท้ายวาล์ว</li>
+                            <li>สัมผัสที่ถูกต้องคือ **"Slight Drag"** หรือรู้สึกหนืดมือพอดีเมื่อดึงแผ่นเกจเข้า-ออก (ไม่หลวมจนร่วง และไม่แน่นจนดันแผ่นเกจไม่เข้าหรือเกิดการงอ)</li>
+                            <li>หากหลวมหรือแน่นเกินไป ให้คลายน็อตล็อค แล้วใช้ไขควงปรับสกรูตั้งวาล์วพร้อมสอดฟิลเลอร์เกจค้างไว้ แล้ว ขันน็อตล็อคกลับให้แน่น</li>
+                        </ol>
+
+                        <h4>2.4 การตรวจวัดความโก่งของหน้าฝาสูบ (Cylinder Head Distortion)</h4>
+                        <p>นำบรรทัดเหล็กขอบเรียบ (Straight Edge) วางทาบลงบนหน้าผกผันของฝาสูบ 6 แนว ได้แก่ แนวยาว 2 แนว, แนวขวาง 2 แนว และแนวทแยงมุม 2 แนว จากนั้นใช้ฟิลเลอร์เกจสอดใต้บรรทัดเหล็ก</p>
+
+                        <div class="overflow-x-auto my-4">
+                            <table class="w-full text-xs text-left border-collapse border border-gray-300">
+                                <thead>
+                                    <tr class="bg-blue-900 text-white">
+                                        <th class="p-2 border">ตำแหน่งการตรวจวัด</th>
+                                        <th class="p-2 border">ค่าโก่งสูงสุดที่ยอมรับได้</th>
+                                        <th class="p-2 border">การวิเคราะห์และแก้ไข</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="bg-white">
+                                        <td class="p-2 border font-semibold">หน้าผืนฝาสูบ (Cylinder Head)</td>
+                                        <td class="p-2 border">ไม่เกิน 0.05 มิลลิเมตร</td>
+                                        <td class="p-2 border">หากเกิน 0.05 - 0.10 มม. ต้องนำไปไสปาดหน้าฝาสูบ (Resurfacing)</td>
+                                    </tr>
+                                    <tr class="bg-gray-50">
+                                        <td class="p-2 border font-semibold">เสื้อสูบ (Cylinder Block)</td>
+                                        <td class="p-2 border">ไม่เกิน 0.05 มิลลิเมตร</td>
+                                        <td class="p-2 border">หากโก่งเกินมาตรฐาน จะทำให้ปะเก็นฝาสูบแล่บและน้ำมันเครื่องรั่วซึม</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `,
+                quiz: [
+                    { q: "ฟิลเลอร์เกจ (Feeler Gauge) นิยมใช้วัดสิ่งใดในงานช่างยนต์?", options: ["ระยะห่างหรือระยะช่องว่างชิ้นส่วน", "ความยาวของเพลา", "ความหนาของเสื้อมอเตอร์", "เส้นผ่านศูนย์กลางท่อ"], a: 0 },
+                    { q: "หากต้องการได้ความหนา 0.28 มม. แต่ไม่มีแผ่นเกจ 0.28 มม. ควรทำอย่างไร?", options: ["ซ้อนแผ่น 0.15 มม. กับ 0.13 มม. เข้าด้วยกัน", "ใช้แผ่น 0.30 มม. แทน", "ตะไบแผ่น 0.30 มม. ออก", "ใช้แรงกดให้แผ่นเกจบีบตัว"], a: 0 },
+                    { q: "สัมผัสที่ถูกต้องขณะสอดฟิลเลอร์เกจเข้าช่องว่างเรียกว่าอะไร?", options: ["รู้สึกหนืดมือพอดี (Light Drag)", "หลวมหลุดหล่นเอง", "แน่นจนต้องใช้ค้อนเคาะ", "กดไม่เข้าเลย"], a: 0 },
+                    { q: "ข้อควรระวังสำคัญที่สุดในการใช้ฟิลเลอร์เกจคือข้อใด?", options: ["ไม่ฝืนออกแรงดันแผ่นเกจเข้าช่องว่างที่แคบเกินไป", "งอแผ่นเกจเพื่อให้เข้าถึงง่ายขึ้น", "ใช้น้ำมันกรดล้างทำความสะอาด", "ไม่เช็ดน้ำมันออกหลังใช้งาน"], a: 0 },
+                    { q: "งานใดต่อไปนี้ต้องใช้ฟิลเลอร์เกจร่วมกับบรรทัดเหล็ก?", options: ["วัดความโก่งของฝาสูบ", "วัดขนาดรูสลักลูกสูบ", "วัดความโตข้อเพลาข้อเหวี่ยง", "วัดความลึกกระบอกสูบ"], a: 0 }
+                ]
+            },
+            {
+                id: 3,
+                title: "หน่วยที่ 3 ประแจวัดแรงบิด (Torque Wrench)",
+                desc: "ทฤษฎีแรงบิด ประเภทประแจ การแปลงหน่วย kgf·m / N·m / lbf·ft และลำดับขั้นตอนการขันแน่น",
+                image: "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&w=600&q=80",
+                content: `
+                    <div class="lesson-body text-sm leading-relaxed text-gray-700">
+                        <h3 class="text-2xl font-bold text-blue-900 mb-4 border-b pb-2">หน่วยที่ 3: ประแจวัดแรงบิด (Torque Wrench)</h3>
+
+                        <div class="my-4 text-center">
+                            <img src="https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&w=1000&q=80" alt="Torque Wrench Usage" class="w-full max-h-80 object-cover rounded-xl shadow">
+                            <p class="text-xs text-gray-500 mt-1">รูปที่ 3.1: ประแจวัดแรงบิดแบบปรับตั้งค่าได้ (Click Type Torque Wrench)</p>
+                        </div>
+
+                        <h4>3.1 ทฤษฎีและสูตรแรงบิด (Torque Principle)</h4>
+                        <p><strong>แรงบิด (Torque)</strong> คือ ผลคูณของแรงดึงกระทำ (Force) กับระยะทางจากจุดหมุนตั้งฉากถึงแนวกระทำของแรง (Distance)</p>
+                        <p class="font-mono text-center font-bold bg-slate-100 p-2 rounded">สูตร: T = F x d</p>
+                        <p>โดยที่: T = แรงบิด, F = แรงดึง (นิวตัน หรือ กิโลกรัมแรง), d = ความยาวด้ามประแจ (เมตร)</p>
+
+                        <h4>3.2 หน่วยวัดแรงบิดและการแปลงหน่วย</h4>
+                        <ul>
+                            <li><strong>ระบบ SI:</strong> นิวตัน-เมตร (N·m)</li>
+                            <li><strong>ระบบเมตริกเดิม:</strong> กิโลกรัมแรง-เมตร (kgf·m)</li>
+                            <li><strong>ระบบอังกฤษ:</strong> ปอนด์-ฟุต (lbf·ft) หรือ ปอนด์-นิ้ว (lbf·in)</li>
+                        </ul>
+
+                        <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 my-4">
+                            <h5 class="text-blue-900 font-bold mb-2 flex items-center">
+                                <i class="fas fa-calculator mr-2 text-blue-600"></i> ตัวอย่างการคำนวณที่ 3.1: การแปลงหน่วยแรงบิด
+                            </h5>
+                            <p class="text-xs"><strong>โจทย์:</strong> คู่มือการซ่อมระบุแรงบิดน็อตยึดฝาสูบเท่ากับ 8.5 kgf·m จงแปลงค่าให้เป็น นิวตัน-เมตร (N·m)? (กำหนด 1 kgf·m ≈ 9.807 N·m)</p>
+                            <p class="font-mono text-xs bg-white p-3 rounded border">
+                                สูตร: ค่า (N·m) = ค่า (kgf·m) x 9.807<br>
+                                แทนค่า: 8.5 x 9.807 = 83.3595 N·m<br>
+                                <strong>คำตอบ:</strong> ต้องตั้งประแจวัดแรงบิดที่ 83.4 N·m
+                            </p>
+                        </div>
+
+                        <h4>3.3 ประเภทของประแจวัดแรงบิด</h4>
+                        <ol>
+                            <li><strong>แบบเข็มชี้ (Beam Type):</strong> มีเข็มชี้บนสเกลหน้าปัด เรียบง่าย ไม่ต้องปรับตั้งความตึงสปริง</li>
+                            <li><strong>แบบคลิก (Click Type):</strong> นิยมใช้มากที่สุด เมื่อขันถึงแรงบิดที่ตั้งไว้จะมีเสียง "แกร๊ก" หรือสัญญาณสัมผัสสะดุดที่ด้ามจับ</li>
+                            <li><strong>แบบดิจิทัล (Digital Torque Wrench):</strong> แสดงผลด้วยตัวเลขบนหน้าจอ LCD มีสัญญาณเสียงเตือน มีความแม่นยำสูงมาก</li>
+                        </ol>
+
+                        <h4>3.4 ลำดับการขันโบลต์ยึดฝาสูบที่ถูกต้อง</h4>
+                        <p>การขันฝาสูบหรือชิ้นส่วนที่มีโบลต์ยึดหลายตัว ต้องขัน **วนจากตรงกลางสลับออกไปด้านนอกแบบกากบาท (Cross Pattern)** เพื่อกระจายแรงกดให้สม่ำเสมอ และแบ่งการขันเป็น 3 ขั้นตอนเสมอ เช่น:</p>
+                        <ul>
+                            <li>ขั้นตอนที่ 1: ขันพรีเซ็ตแรงบิดที่ 30% ของค่าจริง (เช่น 25 N·m)</li>
+                            <li>ขั้นตอนที่ 2: ขันเพิ่มเป็น 70% ของค่าจริง (เช่น 55 N·m)</li>
+                            <li>ขั้นตอนที่ 3: ขันรอบสุดท้ายตามค่ามาตรฐานเต็ม 100% (เช่น 83.4 N·m)</li>
+                        </ul>
+
+                        <div class="bg-amber-50 border-l-4 border-amber-500 p-4 my-4">
+                            <p class="font-bold text-amber-900">ข้อควรระวังสำคัญหลังเลิกใช้งานประแจปอนด์แบบ Click Type:</p>
+                            <p class="text-xs text-amber-800">ต้องหมุนสเกลปรับลดแรงบิดลงมาที่ **ตำแหน่งต่ำสุด (Lowest Setting)** ทุกครั้งก่อนเก็บ เพื่อคืนตัวสปริงภายในไม่ให้ล้าส่งผลให้ค่าแรงบิดเพี้ยนในการใช้งานครั้งต่อไป</p>
+                        </div>
+                    </div>
+                `,
+                quiz: [
+                    { q: "ประแจวัดแรงบิด (Torque Wrench) มีวัตถุประสงค์หลักเพื่อสิ่งใด?", options: ["ควบคุมแรงบิดการขันน็อตให้ได้ตามสเปกผู้ผลิต", "ขันน็อตแน่นที่สุดเท่าที่จะทำได้", "ใช้งัดชิ้นส่วนที่ติดแน่น", "ใช้แทนประแจกากบาทคลายน็อตล้อ"], a: 0 },
+                    { q: "สูตรการคำนวณค่าแรงบิด (Torque) คือข้อใด?", options: ["T = F x d (แรง x ระยะทาง)", "T = F / d (แรง / ระยะทาง)", "T = F + d (แรง + ระยะทาง)", "T = m x g (มวล x ความเร่ง)"], a: 0 },
+                    { q: "เมื่อใช้น็อตยึดฝาสูบ ควรมีลำดับการขันอย่างไร?", options: ["ขันจากตรงกลางวนออกไปด้านนอกแบบกากบาท", "ขันเรียงจากซ้ายไปขวา", "ขันจากขอบนอกเข้าหาตรงกลาง", "ขันตัวไหนก่อนก็ได้"], a: 0 },
+                    { q: "เมื่อเลิกใช้งานประแจปอนด์แบบคลิก (Click Type) ข้อใดคือขั้นตอนที่ถูกต้อง?", options: ["ปรับตั้งสเกลแรงบิดกลับมาที่ค่าต่ำสุดเสมอ", "ปรับตั้งไว้ที่ค่าสูงสุดเพื่อรักษาความตึง", "ไม่ต้องปรับตั้งค่าใดๆ ค้างไว้ที่ค่านั้น", "ล้างด้วยน้ำเปล่าแล้วตากแดด"], a: 0 },
+                    { q: "หน่วยแรงบิดในระบบ SI คือหน่วยใด?", options: ["นิวตัน-เมตร (N·m)", "กิโลกรัม-เซนติเมตร (kgf·cm)", "ปอนด์-นิ้ว (lbf·in)", "ปอนด์-ฟุต (lbf·ft)"], a: 0 }
+                ]
+            },
+            {
+                id: 4,
+                title: "หน่วยที่ 4 เวอร์เนียร์แคลิปเปอร์ (Vernier Caliper)",
+                desc: "ส่วนประกอบ การอ่านสเกลหลักและสเกลเวอร์เนียร์ ความละเอียด 0.05 มม. และ 0.02 มม.",
+                image: "https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&w=600&q=80",
+                content: `
+                    <div class="lesson-body text-sm leading-relaxed text-gray-700">
+                        <h3 class="text-2xl font-bold text-blue-900 mb-4 border-b pb-2">หน่วยที่ 4: เวอร์เนียร์แคลิปเปอร์ (Vernier Caliper)</h3>
+                        <p>เวอร์เนียร์แคลิปเปอร์ เป็นเครื่องมือวัดพื้นฐานที่สามารถใช้วัดได้ 3 รูปแบบ: วัดภายนอก วัดภายใน และวัดความลึก</p>
+                        <h4>4.1 ส่วนประกอบหลัก</h4>
+                        <ul>
+                            <li><strong>ปากวัดภายนอก (External Jaws):</strong> ใช้วัดความโตนอก ความหนา หรือความยาว</li>
+                            <li><strong>ปากวัดภายใน (Internal Jaws):</strong> ใช้วัดความโตใน รูเจาะ หรือความกว้างร่อง</li>
+                            <li><strong>ก้านวัดลึก (Depth Rod):</strong> ใช้วัดความลึกของรูกลมหรือร่องความลึก</li>
+                            <li><strong>สเกลหลัก (Main Scale) & สเกลเวอร์เนียร์ (Vernier Scale):</strong> อ่านค่าขนาดชิ้นงาน</li>
+                        </ul>
+                    </div>
+                `,
+                quiz: [
+                    { q: "เวอร์เนียร์แคลิปเปอร์ทั่วไป ไม่สามารถใช้วัดสิ่งใดได้?", options: ["ความตึงของสายพาน", "ความโตนอก", "ความโตใน", "ความลึก"], a: 0 },
+                    { q: "หากขีด 0 ของสเกลเวอร์เนียร์อยู่เลยขีด 15 มม. บนสเกลหลัก และขีดที่ 4 ของสเกลเวอร์เนียร์ (ความละเอียด 0.05) ตรงกับสเกลหลัก อ่านค่าได้เท่าใด?", options: ["15.20 มม.", "15.04 มม.", "15.40 มม.", "15.05 มม."], a: 0 },
+                    { q: "ก้านวัดลึกของเวอร์เนียร์ยื่นมาจากส่วนใด?", options: ["ส่วนท้ายของเวอรเนียร์", "ปากวัดภายนอก", "ปากวัดภายใน", "ปุ่มล็อค"], a: 0 },
+                    { q: "ข้อใดเป็นวิธีป้องกันปากวัดเวอร์เนียร์สึกหรอ?", options: ["ไม่ใช้ปากวัดเลื่อนถูชิ้นงานขณะกดแน่น", "ใช้ปากวัดงัดชิ้นงาน", "ใช้แทนประแจขันน็อต", "ขัดด้วยกระดาษทรายเบอร์หยาบ"], a: 0 },
+                    { q: "ความละเอียดมาตรฐานของเวอร์เนียร์ระบบเมตริกที่นิยมใช้คือเท่าใด?", options: ["0.05 มม. และ 0.02 มม.", "0.5 มม. และ 0.1 มม.", "1.0 มม.", "0.001 มม."], a: 0 }
+                ]
+            },
+            {
+                id: 5,
+                title: "หน่วยที่ 5 ไมโครมิเตอร์นอก (Outside Micrometer)",
+                desc: "ส่วนประกอบ การอ่านสเกลปลอกหมุนและปลอกคงที่ ความละเอียด 0.01 มม. และการใช้ Ratchet Stop",
+                image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80",
+                content: `
+                    <div class="lesson-body text-sm leading-relaxed text-gray-700">
+                        <h3 class="text-2xl font-bold text-blue-900 mb-4 border-b pb-2">หน่วยที่ 5: ไมโครมิเตอร์นอก (Outside Micrometer)</h3>
+                        <p>เครื่องมือวัดละเอียดสูงถึง 0.01 มม. หรือ 0.001 มม. เหมาะสำหรับวัดขนาดสลักลูกสูบ ความโตเพลาข้อเหวี่ยง และความหนาแผ่นชิม</p>
+                        <h4>5.1 ส่วนประกอบสำคัญ</h4>
+                        <p>ประกอบด้วย โครงตัวยู (Frame), ปากวัดคงที่ (Anvil), ปากวัดเคลื่อนที่ (Spindle), ปลอกสเกลหลัก (Sleeve), ปลอกหมุนสเกล (Thimble) และ หัวหมุนกระทบกรอก (Ratchet Stop)</p>
+                    </div>
+                `,
+                quiz: [
+                    { q: "หัวหมุนกระทบกรอก (Ratchet Stop) มีหน้าที่อะไร?", options: ["ควบคุมแรงกดในการวัดให้สม่ำเสมอ", "ล็อคสเกลไม่ให้หมุน", "ปรับตั้งค่าศูนย์", "หมุนให้เร็วขึ้น"], a: 0 },
+                    { q: "ระยะเกลียว (Pitch) ของแกนไมโครมิเตอร์ระบบเมตริกทั่วไปมีขนาดเท่าใด?", options: ["0.5 มิลลิเมตร", "1.0 มิลลิเมตร", "0.01 มิลลิเมตร", "0.05 มิลลิเมตร"], a: 0 },
+                    { q: "ไมโครมิเตอร์วัดนอกให้ความละเอียดในการวัดเท่าใด?", options: ["0.01 มิลลิเมตร", "0.1 มิลลิเมตร", "0.05 มิลลิเมตร", "0.5 มิลลิเมตร"], a: 0 },
+                    { q: "อุปกรณ์ใดใช้วัดและตั้งค่าศูนย์ (Zero Setting) ของไมโครมิเตอร์?", options: ["แท่งเกจมาตรฐาน (Standard Gauge Block) และประแจตั้งสเกล", "เวอร์เนียร์แคลิปเปอร์", "บรรทัดเหล็ก", "สายวัด"], a: 0 },
+                    { q: "ตำแหน่งใดของสลักลูกสูบที่นิยมใช้ไมโครมิเตอร์วัดเพื่อเช็คความสึกหรอ?", options: ["เส้นผ่านศูนย์กลางภายนอก", "ความยาวสลัก", "ความลึกรูสลัก", "น้ำหนักสลัก"], a: 0 }
+                ]
+            },
+            {
+                id: 6,
+                title: "หน่วยที่ 6 ไดอัลเกจและเกจวัดรูใน (Dial Indicator & Bore Gauge)",
+                desc: "การตั้งค่าไดอัลเกจ การตรวจวัดความเรียบ ความแกว่ง (Runout) และการวัดความสึกหรอกระบอกสูบ",
+                image: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80",
+                content: `
+                    <div class="lesson-body text-sm leading-relaxed text-gray-700">
+                        <h3 class="text-2xl font-bold text-blue-900 mb-4 border-b pb-2">หน่วยที่ 6: ไดอัลเกจและเกจวัดรูใน</h3>
+                        <p>ไดอัลเกจ (Dial Gauge) เป็นนาฬิกาวัดเปรียบเทียบขนาด และ Cylinder Bore Gauge สำหรับวัดความเรียว (Taper) และความรี (Out of Round) ของกระบอกสูบ</p>
+                    </div>
+                `,
+                quiz: [
+                    { q: "ไดอัลเกจ (Dial Indicator) เป็นเครื่องมือวัดประเภทใด?", options: ["เครื่องมือวัดเปรียบเทียบ", "เครื่องมือวัดระยะตรง", "เครื่องมือวัดมุม", "เครื่องมือวัดแรงบิด"], a: 0 },
+                    { q: "การวัดความคดเอียง (Runout) ของเพลาข้อเหวี่ยง นิยมใช้เครื่องมือใด?", options: ["ไดอัลเกจ ร่วมกับแท่นแท่งรองรับรูปตัววี (V-Block)", "เวอร์เนียร์แคลิปเปอร์", "ฟิลเลอร์เกจ", "บรรทัดเหล็ก"], a: 0 },
+                    { q: "การวัดความเรียว (Taper) ของกระบอกสูบ หมายถึงอะไร?", options: ["ความแตกต่างของขนาดกระบอกสูบระหว่างส่วนบนและส่วนล่าง", "ความกลมของกระบอกสูบ", "ความยาวกระบอกสูบ", "ความหนาเสื้อสูบ"], a: 0 },
+                    { q: "ก่อนใช้ Cylinder Bore Gauge วัดกระบอกสูบ ต้องเซ็ตค่าศูนย์ร่วมกับอะไร?", options: ["ไมโครมิเตอร์นอกที่ตั้งขนาดตามสเปก", "เวอร์เนียร์แคลิปเปอร์", "บรรทัดเหล็ก", "ตลับเมตร"], a: 0 },
+                    { q: "สเกล 1 ช่องบนหน้าปัดไดอัลเกจทั่วไป มีค่าเท่ากับเท่าใด?", options: ["0.01 มิลลิเมตร", "0.1 มิลลิเมตร", "0.001 มิลลิเมตร", "1.0 มิลลิเมตร"], a: 0 }
+                ]
+            },
+            {
+                id: 7,
+                title: "หน่วยที่ 7 ไมโครมิเตอร์วัดในและเวนเกจ (Inside Micrometer)",
+                desc: "การวัดขนาดความโตภายในกระบอกสูบ รูแหวนลูกสูบ และข้อต่อทางกล",
+                image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80",
+                content: `
+                    <div class="lesson-body text-sm leading-relaxed text-gray-700">
+                        <h3 class="text-2xl font-bold text-blue-900 mb-4 border-b pb-2">หน่วยที่ 7: ไมโครมิเตอร์วัดใน</h3>
+                        <p>ใช้วัดเส้นผ่านศูนย์กลางภายในของชิ้นส่วนทรงกลมและร่องกลมที่ต้องการความแม่นยำสูง</p>
+                    </div>
+                `,
+                quiz: [
+                    { q: "ไมโครมิเตอร์วัดใน (Inside Micrometer) ออกแบบมาเพื่องานใด?", options: ["วัดความโตภายในของรูเจาะหรือกระบอกสูบ", "วัดความโตภายนอกลูกสูบ", "วัดความยาวเพลา", "วัดความลึก"], a: 0 },
+                    { q: "ข้อใดคือจุดสำคัญในการหาค่าจริงเมื่อใช้ไมโครมิเตอร์วัดใน?", options: ["การโยกหาจุดที่กว้างที่สุดและโยกหาจุดที่สั้นที่สุดอย่างถูกต้อง", "การหมุนอัดแน่นๆ", "การใช้น้ำยาหล่อลื่น", "การอ่านสเกลเอียงๆ"], a: 0 },
+                    { q: "ข้อใดไม่ใช่งานที่ต้องใช้ไมโครมิเตอร์วัดใน?", options: ["วัดความหนาแผ่นชิมวาล์ว", "วัดขนาดรูสลักลูกสูบ", "วัดความโตภายในตลับลูกปืน", "วัดความโตกระบอกสูบ"], a: 0 },
+                    { q: "การดูแลรักษาไมโครมิเตอร์วัดในควรทำอย่างไร?", options: ["เช็ดทำความสะอาดและชโลมน้ำมันบางๆ หลังใช้", "ล้างด้วยน้ำเปล่า", "ทาจาระบีหนาๆ", "เก็บในที่ชื้น"], a: 0 },
+                    { q: "สเกลอ่านค่าของไมโครมิเตอร์วัดในมีหลักการอ่านเหมือนเครื่องมือใด?", options: ["ไมโครมิเตอร์วัดนอก", "เวอร์เนียร์แคลิปเปอร์", "ตลับเมตร", "บรรทัดเหล็ก"], a: 0 }
+                ]
+            },
+            {
+                id: 8,
+                title: "หน่วยที่ 8 เกจวัดความลึกและพลาสติเกจ (Plastigage)",
+                desc: "การวัดระยะช่องว่างน้ำมันเลี้ยงชาร์ฟ (Oil Clearance) และเทคนิคการใช้พลาสติเกจ",
+                image: "https://images.unsplash.com/photo-1616401784845-180882ba9ba8?auto=format&fit=crop&w=600&q=80",
+                content: `
+                    <div class="lesson-body text-sm leading-relaxed text-gray-700">
+                        <h3 class="text-2xl font-bold text-blue-900 mb-4 border-b pb-2">หน่วยที่ 8: เกจวัดความลึกและพลาสติเกจ (Plastigage)</h3>
+                        <p>พลาสติเกจ เป็นเส้นพลาสติกพิเศษใช้วัดระยะห่างน้ำมันเลี้ยงแบริ่ง (Oil Clearance) ของเพลาข้อเหวี่ยงและก้านสูบ</p>
+                    </div>
+                `,
+                quiz: [
+                    { q: "พลาสติเกจ (Plastigage) ใช้วัดสิ่งใดในงานซ่อมเครื่องยนต์?", options: ["ระยะห่างน้ำมันเลี้ยงแบริ่ง (Oil Clearance)", "ความกว้างร่องแหวน", "ความโตลูกสูบ", "ความยาวก้านสูบ"], a: 0 },
+                    { q: "การอ่านค่าความหนาของพลาสติเกจที่ถูกบี้แบน ทำได้อย่างไร?", options: ["นำซองบรรจุที่มีสเกลแถบความกว้างมาเทียบ", "ใช้ไมโครมิเตอร์หนีบวัด", "ใช้เวอร์เนียร์วัด", "ใช้สายตาคาดเดา"], a: 0 },
+                    { q: "ข้อห้ามสำคัญที่สุดขณะขันฝาครอบแบริ่งทับพลาสติเกจเพื่อวัดค่าคือข้อใด?", options: ["ห้ามหมุนเพลาข้อเหวี่ยงโดยเด็ดขาด", "ห้ามใช้ประแจปอนด์", "ห้ามใส่น้ำมัน", "ห้ามใช้น็อตเดิม"], a: 0 },
+                    { q: "พลาสติเกจสีแถบต่างกัน (เช่น เขียว, แดง, น้ำเงิน) แสดงถึงสิ่งใด?", options: ["ช่วงขนาดระยะห่างที่ใช้วัดต่างกัน", "ยี่ห้อต่างกัน", "ความยาวต่างกัน", "ราคาต่างกัน"], a: 0 },
+                    { q: "หากระยะห่างน้ำมันเลี้ยงแบริ่ง (Oil Clearance) มากเกินไป จะเกิดผลอย่างไร?", options: ["แรงดันน้ำมันเครื่องตกและเกิดเสียงดังกระแทก", "เครื่องยนต์ติดขัดทันที", "น้ำมันเครื่องไม่ไหล", "ไม่มีผลเสียใดๆ"], a: 0 }
+                ]
+            }
+        ];
+
+        let currentStudent = JSON.parse(localStorage.getItem('student_info')) || null;
+        let currentUnitIndex = 0;
+        let currentQuizIndex = 0;
+        let userAnswers = [];
+
+        function init() {
+            renderHomeUnits();
+            renderUnitsList();
+            updateStudentDisplay();
+        }
+
+        function showView(viewId) {
+            document.querySelectorAll('.view-panel').forEach(panel => panel.classList.add('hidden'));
+            const targetView = document.getElementById(`view-${viewId}`);
+            if (targetView) targetView.classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function updateStudentDisplay() {
+            const nameTag = document.getElementById('student-name-tag');
+            if (currentStudent && currentStudent.name) {
+                nameTag.textContent = `${currentStudent.name} (ม.4/${currentStudent.room} เลขที่ ${currentStudent.no})`;
+                document.getElementById('input-name').value = currentStudent.name;
+                document.getElementById('input-no').value = currentStudent.no;
+                document.getElementById('input-room').value = currentStudent.room;
+            } else {
+                nameTag.textContent = 'ยังไม่ได้ลงทะเบียน';
+            }
+        }
+
+        function saveStudentInfo(e) {
+            e.preventDefault();
+            currentStudent = {
+                name: document.getElementById('input-name').value,
+                no: document.getElementById('input-no').value,
+                room: document.getElementById('input-room').value
+            };
+            localStorage.setItem('student_info', JSON.stringify(currentStudent));
+            updateStudentDisplay();
+            alert('บันทึกข้อมูลเรียบร้อยแล้ว');
+            showView('units');
+        }
+
+        function renderHomeUnits() {
+            const container = document.getElementById('home-units-grid');
+            container.innerHTML = courseData.map((unit, idx) => `
+                <div class="bg-white rounded-xl shadow border overflow-hidden flex flex-col hover:shadow-lg transition">
+                    <img src="${unit.image}" alt="${unit.title}" class="h-32 w-full object-cover">
+                    <div class="p-4 flex-grow flex flex-col justify-between space-y-3">
+                        <div>
+                            <h4 class="font-bold text-blue-900 text-sm line-clamp-2">${unit.title}</h4>
+                            <p class="text-xs text-gray-500 mt-1 line-clamp-2">${unit.desc}</p>
+                        </div>
+                        <button onclick="openUnit(${idx})" class="w-full bg-blue-50 text-blue-800 hover:bg-blue-800 hover:text-white text-xs font-semibold py-2 rounded-lg transition">
+                            เรียนรู้ & ทำแบบทดสอบ
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderUnitsList() {
+            const container = document.getElementById('units-list-container');
+            container.innerHTML = courseData.map((unit, idx) => `
+                <div class="bg-white p-5 rounded-2xl shadow-md border border-gray-200 flex flex-col sm:flex-row gap-4 items-center">
+                    <img src="${unit.image}" alt="${unit.title}" class="w-full sm:w-32 h-24 object-cover rounded-xl">
+                    <div class="flex-grow space-y-2 text-center sm:text-left">
+                        <h3 class="font-bold text-blue-900 text-base">${unit.title}</h3>
+                        <p class="text-xs text-gray-600">${unit.desc}</p>
+                        <div class="flex flex-wrap gap-2 pt-1 justify-center sm:justify-start">
+                            <button onclick="openUnit(${idx})" class="bg-blue-600 hover:bg-blue-700 text-white text-xs px-3 py-1.5 rounded-lg transition font-medium">
+                                <i class="fas fa-book-open mr-1"></i> อ่านบทเรียน
+                            </button>
+                            <button onclick="startQuiz(${idx})" class="bg-amber-500 hover:bg-amber-600 text-white text-xs px-3 py-1.5 rounded-lg transition font-medium">
+                                <i class="fas fa-pen mr-1"></i> ทำแบบทดสอบ
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openUnit(index) {
+            currentUnitIndex = index;
+            const unit = courseData[index];
+            const detailContainer = document.getElementById('unit-detail-content');
+            detailContainer.innerHTML = `
+                ${unit.content}
+                <div class="pt-6 border-t flex justify-end no-print">
+                    <button onclick="startQuiz(${index})" class="bg-amber-500 hover:bg-amber-600 text-white font-bold py-3 px-6 rounded-xl shadow-md transition flex items-center">
+                        <i class="fas fa-edit mr-2"></i> ทำแบบทดสอบวัดผลหน่วยนี้
+                    </button>
+                </div>
+            `;
+            showView('unit-detail');
+        }
+
+        function startQuiz(index) {
+            if (!currentStudent || !currentStudent.name) {
+                alert('กรุณากรอกข้อมูลนักเรียนก่อนทำแบบทดสอบครับ');
+                showView('student-info');
+                return;
+            }
+            currentUnitIndex = index;
+            currentQuizIndex = 0;
+            userAnswers = new Array(courseData[index].quiz.length).fill(null);
+            document.getElementById('quiz-title').textContent = `แบบทดสอบ: ${courseData[index].title}`;
+            renderQuestion();
+            showView('quiz');
+        }
+
+        function renderQuestion() {
+            const quizList = courseData[currentUnitIndex].quiz;
+            const q = quizList[currentQuizIndex];
+            document.getElementById('quiz-progress').textContent = `ข้อ ${currentQuizIndex + 1}/${quizList.length}`;
+            
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = `
+                <p class="font-semibold text-gray-800 text-sm sm:text-base">${currentQuizIndex + 1}. ${q.q}</p>
+                <div class="space-y-2 mt-3">
+                    ${q.options.map((opt, i) => `
+                        <label class="flex items-center p-3 border rounded-xl hover:bg-blue-50 cursor-pointer transition text-xs sm:text-sm ${userAnswers[currentQuizIndex] === i ? 'border-blue-600 bg-blue-50 font-medium' : 'border-gray-200'}">
+                            <input type="radio" name="quiz-opt" value="${i}" ${userAnswers[currentQuizIndex] === i ? 'checked' : ''} onchange="selectAnswer(${i})" class="mr-3 text-blue-600 focus:ring-blue-500">
+                            <span>${opt}</span>
+                        </label>
+                    `).join('')}
+                </div>
+            `;
+
+            document.getElementById('btn-prev').disabled = currentQuizIndex === 0;
+            document.getElementById('btn-next').textContent = currentQuizIndex === quizList.length - 1 ? 'ส่งแบบทดสอบ' : 'ข้อถัดไป';
+        }
+
+        function selectAnswer(optIdx) {
+            userAnswers[currentQuizIndex] = optIdx;
+        }
+
+        function navigateQuiz(dir) {
+            const quizList = courseData[currentUnitIndex].quiz;
+            if (dir === 1 && userAnswers[currentQuizIndex] === null) {
+                alert('กรุณาเลือกคำตอบก่อนไปข้อถัดไปครับ');
+                return;
+            }
+            
+            currentQuizIndex += dir;
+            if (currentQuizIndex >= quizList.length) {
+                finishQuiz();
+            } else {
+                renderQuestion();
+            }
+        }
+
+        function finishQuiz() {
+            const quizList = courseData[currentUnitIndex].quiz;
+            let score = 0;
+            userAnswers.forEach((ans, i) => {
+                if (ans === quizList[i].a) score++;
+            });
+
+            document.getElementById('res-student-name').textContent = currentStudent.name;
+            document.getElementById('res-student-room').textContent = currentStudent.room;
+            document.getElementById('res-student-no').textContent = currentStudent.no;
+            document.getElementById('res-sign-student').textContent = currentStudent.name;
+            document.getElementById('res-unit-title').textContent = courseData[currentUnitIndex].title;
+            
+            const now = new Date();
+            document.getElementById('res-date').textContent = now.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+            
+            document.getElementById('res-score-display').textContent = `${score} / ${quizList.length}`;
+            const statusText = document.getElementById('res-status-text');
+            const passCut = Math.ceil(quizList.length * 0.6);
+            if (score >= passCut) {
+                statusText.textContent = 'ผลการประเมิน: ผ่านเกณฑ์';
+                statusText.className = 'text-sm mt-2 font-bold text-emerald-600';
+            } else {
+                statusText.textContent = 'ผลการประเมิน: ไม่ผ่านเกณฑ์ (ควรทบทวนบทเรียนอีกครั้ง)';
+                statusText.className = 'text-sm mt-2 font-bold text-rose-600';
+            }
+
+            showView('result');
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
